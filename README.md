@@ -7,7 +7,7 @@
  productivity tool designed to help users manage their tasks and optimize their time efficiently
 
  # Introduction
-  is an innovative productivity tool designed to help users manage their tasks and optimize their time efficiently. By integrating intelligent reminders with a unique feedback system, FocusFlow allows users to create, prioritize, and track their tasks seamlessly. It promotes accountability and personal growth by providing insights into user performance and suggesting routine optimizations. FocusFlow can be implemented as a Discord bot or Telegram bot, sending real-time notifications and reminders directly to users in a familiar environment, making it easier than ever to stay organized and focused on achieving goals
+  This is an innovative productivity tool designed to help users manage their tasks and optimize their time efficiently. By integrating intelligent reminders with a unique feedback system, FocusFlow allows users to create, prioritize, and track their tasks seamlessly. It promotes accountability and personal growth by providing insights into user performance and suggesting routine optimizations. FocusFlow can be implemented as a Discord bot or Telegram bot, sending real-time notifications and reminders directly to users in a familiar environment, making it easier than ever to stay organized and focused on achieving goals
 
   # Layout
 ```
