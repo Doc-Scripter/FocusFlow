@@ -1,0 +1,23 @@
+body{
+    background-color: #4379F2;
+    justify-content: center;
+}
+nav{
+    background-color: #FFEB00;
+}
+.highlight{
+    color: #117554;
+    background-color: #FFEB00;
+
+    /* background-color: #117554 */
+}
+button:hover{
+background-color: #4379F2;
+}
+
+
+#next-table{
+    border-color: #6EC207;
+    border-style:ridge;
+    
+}

@@ -4,7 +4,8 @@
     <title>FocusFlow</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css"/>
+    <title>FocusFlow</title>
 </head>
 <body >
     <header >
@@ -16,8 +17,8 @@
             </ul>
         </nav>
     </header>
-    <div class="highlight">NEXT UP</div>
-    <table id="next-table">
+    <div class="highlight">NEXT UP
+    <table id="next-table" border="1">
     <thead>
         <tr>
             <th>Event</th>
@@ -38,8 +39,10 @@
 
     </tbody>
     </table>
+    </div>
     <hr>
-    <button class="highlight" action="/NewEvent">SET NEW</button>
+    <div class="highlight">
+    <button class="Event" action="/NewEvent">SET NEW</button>
     <table id="recap-table" cols="1" rows="2">
         <thead>
             <tr>
@@ -50,7 +53,7 @@
         <tbody>
             <tr>
                 <td>{{.Event}}</td> 
-                <td>{{.Recap}}</td>              
+                <td>{{.Time}}</td>              
             </tr>   
             <tr>
                 <td>Studying</td> 
@@ -60,5 +63,6 @@
             
         </tbody>
     </table>
+    </div>  
 </body>
 </html>

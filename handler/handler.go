@@ -11,7 +11,7 @@ func Homehandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// fs:=http.FileServer(http.Dir("/handler"))
-	t, err := template.ParseFiles("./handler/index.html")
+	t, err := template.ParseFiles("./web/templates/index.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

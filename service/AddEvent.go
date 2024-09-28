@@ -6,7 +6,7 @@ import (
 
 )
 
-func main() {
+func AddEvent() {
 	input := bufio.NewScanner(os.Stdin)
 	// var out struct{}
 	tasks := []string{}
