@@ -11,9 +11,9 @@
     <header >
         <nav > 
             <ul >
-            <li><a action="Schedule">Schedule</a></li>
-            <li><a action="Events">Events</a></li>
-            <li><a action="Appointments">Appointments</a></li>
+            <li><a action="/Schedule">Schedule</a></li>
+            <li><a action="/Events">Events</a></li>
+            <li><a action="/Appointments">Appointments</a></li>
             </ul>
         </nav>
     </header>
@@ -42,8 +42,10 @@
     </div>
     <hr>
     <div class="highlight">
-    <button class="Event" action="/NewEvent">SET NEW</button>
-    <table id="recap-table" cols="1" rows="2">
+        <form method="get" action="/NewEvent">
+    <button>SET NEW</button></a>
+    </form>
+    <table id="recap-table">
         <thead>
             <tr>
                 <th>Event</th>

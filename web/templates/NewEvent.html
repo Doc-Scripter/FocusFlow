@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+    <title>FocusFlow</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css"/>
+    <title>FocusFlow</title>
+</head>
+<body >
+    <form method="post" action="/AddEvent">
+   <input type="text" name="AddEvent" required>
+   <!-- <input type="date" name="Date"> -->
+   <button type="submit">Submit</button>
+    </form>
+    {{range .Events}}
+    {{.AddEvent}}
+    {{end}}
+</body>
+</html>
