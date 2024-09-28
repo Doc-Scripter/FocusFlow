@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="static/css/style.css"/>
-    <title>FocusFlow</title>
 </head>
 <body >
     <form method="post" action="/AddEvent">
@@ -13,8 +12,20 @@
    <!-- <input type="date" name="Date"> -->
    <button type="submit">Submit</button>
     </form>
-    {{range .Events}}
-    {{.AddEvent}}
+    <table border="1">
+    <thead>
+        <tr>
+        <th>Events</th></tr>
+    </thead>
+    <tbody>
+        {{range .Events}}
+        <tr><td>
+            <form method="post" action="/Delete">
+                <button>{{.AddEvent}}</button></td>
+                <form>
+        </tr>
     {{end}}
+    </tbody>
+    </table>
 </body>
 </html>
