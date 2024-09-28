@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+    <title>FocusFlow</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body >
+    <header >
+        <nav > 
+            <ul >
+            <li><a action="Schedule">Schedule</a></li>
+            <li><a action="Events">Events</a></li>
+            <li><a action="Appointments">Appointments</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="highlight">NEXT UP</div>
+    <table id="next-table">
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>hi</td>
+            <td>today</td>
+        </tr>
+        
+        <tr>
+            <td>here</td>
+            <td>now</td>
+
+        </tr>
+
+    </tbody>
+    </table>
+    <hr>
+    <button class="highlight" action="/NewEvent">SET NEW</button>
+    <table id="recap-table" cols="1" rows="2">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Recap</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{.Event}}</td> 
+                <td>{{.Recap}}</td>              
+            </tr>   
+            <tr>
+                <td>Studying</td> 
+                <td>Ontime</td> 
+            </tr>
+
+            
+        </tbody>
+    </table>
+</body>
+</html>
