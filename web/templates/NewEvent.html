@@ -9,21 +9,31 @@
 <body >
     <form method="post" action="/AddEvent">
    <input type="text" name="AddEvent" required>
-   <!-- <input type="date" name="Date"> -->
+   <input type="date" name="Date" required>
+   <input type="time" name="Time" required>
    <button type="submit">Submit</button>
     </form>
     <table border="1">
     <thead>
         <tr>
-        <th>Events</th></tr>
+        <th>EVENTS</th>
+        <th>DATE</th>
+        <th>TIME</th>
+        </thead>
+        </tr>
     </thead>
     <tbody>
         {{range .Events}}
-        <tr><td>
-            <form method="post" action="/Delete">
-                <button>{{.AddEvent}}</button></td>
-                <form>
-        </tr>
+        <tr><td>{{.AddEvent}}</td>
+            <td>{{.Date}}</td>
+            <td>{{.Time}}</td>
+            <td>
+                <form method="post" name="DeleteEvent" action="/Delete">
+                    <input type="hidden" name="DeleteEvent" value="{{.AddEvent}}">
+                    <button type="submit">DELETE</button>
+                </td>
+                </form>
+            </tr>
     {{end}}
     </tbody>
     </table>

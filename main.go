@@ -15,6 +15,8 @@ func main() {
 			handler.NewEventhandler(w, r)
 		case "/AddEvent":
 			handler.AddEventHandler(w, r)
+		case "/Delete":
+			handler.DeleteEventHandler(w, r)
 		default:
 			http.Error(w, "404 Not Found", http.StatusNotFound)
 		}
