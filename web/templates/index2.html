@@ -112,7 +112,7 @@
                 <input type="date" name="Date" required="" style="flex: 1;">
                 <input type="time" name="Time" required="" style="flex: 1;">
             </div>
-            <input type="text" name="text" placeholder="Enter your text here" required="">
+            <input type="text" name="AddEvent" placeholder="Enter your text here" required="">
             <button type="submit" id="submitButton">Submit</button>
         </form>
         <div id="successPopup" class="glassmorphism" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); color: #117554; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000;">
@@ -134,7 +134,7 @@
                         <td style="padding: 0.5rem;">{{.Time}}</td>
                         <td style="padding: 0.5rem;">
                             <form method="post" name="DeleteEvent" action="/Delete">
-                                <button type="submit" style="background-color: #6EC207; color: #FFEB00; border: none; padding: 0.3rem 0.5rem; border-radius: 3px; cursor: pointer;" name="DeleteEvent"value="{{.AddEvent}}">Delete</button>
+                                <button type="submit" style="background-color: #6EC207; color: #FFEB00; border: none; padding: 0.3rem 0.5rem; border-radius: 3px; cursor: pointer;" name="DeleteEvent" value="{{.AddEvent}}">Delete</button>
                             </form>
                         </td>
                     </tr>

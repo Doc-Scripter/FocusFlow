@@ -104,6 +104,7 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	data := Data{Events: events}
+	fmt.Println(data)
 	err = t.Execute(w, data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
