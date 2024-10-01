@@ -1,22 +1,26 @@
 package main
 
 import (
-	"Focus/handler"
 	"net/http"
+
+	"Focus/handler"
 )
 
 func main() {
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/":
-			handler.Homehandler(w, r)
+			handler.RegisterPageHandler(w, r)
 		case "/NewEvent":
 			handler.NewEventhandler(w, r)
+		case "/register":
+			handler.RegisterHandler(w, r)
 		case "/AddEvent":
 			handler.AddEventHandler(w, r)
 		case "/Delete":
 			handler.DeleteEventHandler(w, r)
+		case"/login":
+			handler.LoginPageHandler(w, r)
 		default:
 			http.Error(w, "404 Not Found", http.StatusNotFound)
 		}

@@ -1,0 +1,199 @@
+<html><head><base href="https://websim.creation.engine/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOCUSFLOW - Login</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #4379F2;
+        color: #117554;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    .glassmorphism {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    header {
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #FFEB00;
+        text-decoration: none;
+    }
+    nav {
+        display: flex;
+        gap: 1rem;
+    }
+    nav a {
+        color: #6EC207;
+        text-decoration: none;
+    }
+    main {
+        flex-grow: 1;
+        max-width: 500px;
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    input, button {
+        padding: 0.75rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+    input {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+    button {
+        background-color: #6EC207;
+        color: #FFEB00;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #5ba206;
+    }
+    footer {
+        text-align: center;
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        margin-top: auto;
+    }
+    .github-logo {
+        width: 32px;
+        height: 32px;
+    }
+    h1 {
+        color: #FFEB00;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    label {
+        font-weight: bold;
+        color: #FFEB00;
+    }
+    .password-toggle {
+        position: relative;
+    }
+    .password-toggle input {
+        padding-right: 40px;
+    }
+    .password-toggle .toggle-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #117554;
+    }
+    .forgot-password {
+        text-align: right;
+        margin-top: 0.5rem;
+    }
+    .forgot-password a {
+        color: #FFEB00;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    .forgot-password a:hover {
+        text-decoration: underline;
+    }
+    .register-link {
+        text-align: center;
+        margin-top: 1rem;
+        color: #FFEB00;
+    }
+    .register-link a {
+        color: #6EC207;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+    <header class="glassmorphism">
+        <a href="/" class="logo">FOCUSFLOW</a>
+        <nav>
+            <a href="/register">Register</a>
+        </nav>
+    </header>
+
+    <main class="glassmorphism">
+        <h1>Login</h1>
+        <form id="loginForm" action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Username or Email</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="password-toggle">
+                    <input type="password" id="password" name="password" required>
+                    <span class="toggle-icon" onclick="togglePassword('password')">👁️</span>
+                </div>
+                <div class="forgot-password">
+                    <a href="/forgot-password">Forgot Password?</a>
+                </div>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="register-link">
+            Don't have an account? <a href="/register">Register here</a>
+        </div>
+    </main>
+
+    <footer>
+        <a href="https://github.com/focusflow" target="_blank">
+            <svg class="github-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#117554" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
+            </svg>
+        </a>
+    </footer>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Here you would typically send the login data to your server for authentication
+            // For this example, we'll just show a success message
+            console.log('Login attempt:', { username, password });
+            alert("Login successful! Welcome back to FOCUSFLOW!");
+            this.reset();
+        });
+    </script>
+</body></html>
