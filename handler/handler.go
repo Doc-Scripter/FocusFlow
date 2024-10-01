@@ -18,7 +18,18 @@ type Data struct {
 	Events []Event
 }
 
+type Users struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+type TotalUsers struct {
+	Total []Users
+}
+
 const users = "./database/users.json"
+
+// var isOnline map[string]bool
 
 func Homehandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
@@ -87,7 +98,7 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t, err := template.ParseFiles("./web/templates/NewEvent.html")
+	t, err := template.ParseFiles("./web/templates/index2.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -117,7 +128,7 @@ func DeleteEventHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	json.Unmarshal(file, &events)
 	for k, v := range events {
-		fmt.Println(r.FormValue("DeleteEvent"))
+		// fmt.Println(r.FormValue("DeleteEvent"))
 		if v.AddEvent == r.FormValue("DeleteEvent") {
 			events = append(events[:k], events[k+1:]...)
 		}
@@ -134,19 +145,13 @@ func DeleteEventHandler(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
-	tmpl, err := template.ParseFiles("./web/templates/NewEvent.html")
+	tmpl, err := template.ParseFiles("./web/templates/index2.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	data := Data{Events: events}
 	tmpl.Execute(w, data)
-}
-
-type Users struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
 }
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -196,4 +201,44 @@ func LoginPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.ServeFile(w, r, "./web/templates/login.html")
+}
+
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	var AllUsers TotalUsers
+	user := Users{
+		Username: r.FormValue("username"),
+		// Email:    r.FormValue("email"),
+		Password: r.FormValue("password"),
+	}
+	ExistingUsers, err := os.ReadFile(users)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	var authenticated bool
+	json.Unmarshal(ExistingUsers, &AllUsers.Total)
+	fmt.Println(AllUsers.Total)
+	for _, v := range AllUsers.Total {
+		if v.Username == user.Username || v.Password == user.Password {
+			authenticated = true
+		}
+
+	}
+	if !authenticated {
+		// http.Error(w, "Invalid Credentials", http.StatusUnauthorized)
+		http.Redirect(w, r, "./web/templates/login.html", http.StatusSeeOther)
+		return
+	}
+	tmpl, err := template.ParseFiles("./web/templates/index2.html")
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	err = tmpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+
 }

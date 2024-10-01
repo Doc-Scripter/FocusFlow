@@ -21,6 +21,8 @@ func main() {
 			handler.DeleteEventHandler(w, r)
 		case"/login":
 			handler.LoginPageHandler(w, r)
+		case "/auth":
+			handler.LoginHandler(w, r)
 		default:
 			http.Error(w, "404 Not Found", http.StatusNotFound)
 		}

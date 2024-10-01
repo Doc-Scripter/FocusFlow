@@ -1,4 +1,4 @@
-<html><head><base href="https://websim.creation.engine/">
+<html><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FOCUSFLOW - Login</title>
@@ -144,10 +144,11 @@
 
     <main class="glassmorphism">
         <h1>Login</h1>
-        <form id="loginForm" action="/login" method="post">
+        <form id="loginForm" action="/auth" method="post">
             <div class="form-group">
                 <label for="username">Username or Email</label>
                 <input type="text" id="username" name="username" required>
+                <!-- <input type="email" id="username" name="email" required> -->
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -184,16 +185,15 @@
             }
         }
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+       // document.getElementById('loginForm').addEventListener('submit', function(e) {
+          //  const username = document.getElementById('username').value;
+           // const password = document.getElementById('password').value;
 
             // Here you would typically send the login data to your server for authentication
             // For this example, we'll just show a success message
-            console.log('Login attempt:', { username, password });
-            alert("Login successful! Welcome back to FOCUSFLOW!");
-            this.reset();
-        });
+          //  console.log('Login attempt:', { username, password });
+        //    alert("Login successful! Welcome back to FOCUSFLOW!");
+         //   this.reset();
+     //   });
     </script>
 </body></html>
