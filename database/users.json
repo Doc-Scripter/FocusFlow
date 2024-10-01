@@ -13,5 +13,10 @@
 		"username": "clifford",
 		"email": "Clifford303132@yahoo.com",
 		"password": "uqE8QnLNGT3nLrA"
+	},
+	{
+		"username": "admin",
+		"email": "admin@gmail.com",
+		"password": "admin"
 	}
 ]

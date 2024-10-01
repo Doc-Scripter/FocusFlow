@@ -23,6 +23,8 @@ func main() {
 			handler.LoginPageHandler(w, r)
 		case "/auth":
 			handler.LoginHandler(w, r)
+		case "contact":
+			handler.ContactPageHandler(w, r)
 		default:
 			http.Error(w, "404 Not Found", http.StatusNotFound)
 		}

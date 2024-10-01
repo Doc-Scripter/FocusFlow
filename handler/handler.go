@@ -29,7 +29,12 @@ type TotalUsers struct {
 
 const users = "./database/users.json"
 
-// var isOnline map[string]bool
+var isOnline = make(map[string]bool)
+
+type OnlineUsers struct{
+	Username string `json:"username"`
+	// LassoStatus
+}
 
 func Homehandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
@@ -224,6 +229,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(AllUsers.Total)
 	for _, v := range AllUsers.Total {
 		if v.Username == user.Username || v.Password == user.Password {
+			isOnline[v.Username] = true
 			authenticated = true
 		}
 
@@ -242,4 +248,12 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 
+}
+
+func ContactPageHandler(w http.ResponseWriter,r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w, "Method not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	http.ServeFile(w,r,"")
 }
