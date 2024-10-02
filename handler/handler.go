@@ -31,10 +31,10 @@ const users = "./database/users.json"
 
 var isOnline = make(map[string]bool)
 
-type OnlineUsers struct{
-	Username string `json:"username"`
-	// LassoStatus
+type OnlineUsers struct {
+	OnlineUser []string 
 }
+// LassoStatus
 
 func Homehandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
@@ -226,7 +226,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var authenticated bool
 	json.Unmarshal(ExistingUsers, &AllUsers.Total)
-	fmt.Println(AllUsers.Total)
+	// fmt.Println(AllUsers.Total)
 	for _, v := range AllUsers.Total {
 		if v.Username == user.Username || v.Password == user.Password {
 			isOnline[v.Username] = true
@@ -250,10 +250,22 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func ContactPageHandler(w http.ResponseWriter,r *http.Request){
+func ContactPageHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Error(w, "Method not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	http.ServeFile(w,r,"")
+	fmt.Println(isOnline)
+	var displayOnline OnlineUsers
+	for k := range isOnline {
+		displayOnline.OnlineUser = append(displayOnline.OnlineUser, k)
+		// displayOnline.Username = k
+	}
+	// fmt.Println(displayOnline)
+	tmpl, err := template.ParseFiles("./web/templates/contacts.html")
+	if err != nil {
+		http.Error(w, err.Error(), 404)
+		return
+	}
+	tmpl.Execute(w, displayOnline)
 }

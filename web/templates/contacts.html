@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><base href="https://example.com"></head><body>
+<!DOCTYPE html><html lang="en"><head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -104,11 +104,12 @@
                 </tr>
             </thead>
             <tbody>
+                {{range .OnlineUser}}
                 <tr>
-                    <td>Alice Johnson</td>
-                    <td><span class="action-icon" title="Book an appointment">🎯</span></td>
+                    <td>{{.}}</td>
+                    <!-- <td><span class="action-icon" title="Book an appointment">🎯</span></td> -->
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>Bob Smith</td>
                     <td><span class="action-icon" title="Cancel appointment">✂️</span></td>
                 </tr>
@@ -123,7 +124,8 @@
                 <tr>
                     <td>Emma Davis</td>
                     <td><span class="action-icon" title="Book an appointment">🎯</span></td>
-                </tr>
+                </tr> -->
+                {{end}}
             </tbody>
         </table>
     </main>
@@ -136,7 +138,7 @@
         </a>
     </footer>
 
-    <script>
+    <!-- <script>
         document.querySelectorAll('.action-icon').forEach(icon => {
             icon.addEventListener('click', function() {
                 const action = this.getAttribute('title');
@@ -152,7 +154,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
 
 
 </body></html>
