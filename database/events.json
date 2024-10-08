@@ -1,1 +1,12 @@
-[]
+[
+	{
+		"addEvent": "eating",
+		"date": "2024-10-07",
+		"time": "22:29"
+	},
+	{
+		"addEvent": "meeting",
+		"date": "2024-10-07",
+		"time": "22:38"
+	}
+]

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"Focus/service"
+	"Focus/structs"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -8,14 +10,9 @@ import (
 	"os"
 )
 
-type Event struct {
-	AddEvent string `json:"addEvent"`
-	Date     string `json:"date"`
-	Time     string `json:"time"`
-}
-
 type Data struct {
-	Events []Event
+	Events []structs.Event
+	Alert  string
 }
 
 type Users struct {
@@ -27,13 +24,14 @@ type TotalUsers struct {
 	Total []Users
 }
 
-const users = "./database/users.json"
+const UserEvents = "./database/events.json"
 
 var isOnline = make(map[string]bool)
 
 type OnlineUsers struct {
-	OnlineUser []string 
+	OnlineUser []string
 }
+
 // LassoStatus
 
 func Homehandler(w http.ResponseWriter, r *http.Request) {
@@ -61,8 +59,8 @@ func NewEventhandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	var existingData []Event
-	file, err := os.ReadFile("./database/events.json")
+	var existingData []structs.Event
+	file, err := os.ReadFile(UserEvents)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -77,19 +75,21 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}
 	// fmt.Println("hi")
-	var events []Event
-	file, err := os.ReadFile("./database/events.json")
+	var events []structs.Event
+	file, err := os.ReadFile(UserEvents)
 	if err != nil {
 		http.Error(w, "hello", http.StatusInternalServerError)
 		return
 	}
 	json.Unmarshal(file, &events)
 
-	newEvent := Event{
+	newEvent := structs.Event{
 		AddEvent: r.FormValue("AddEvent"),
 		Date:     r.FormValue("Date"),
 		Time:     r.FormValue("Time"),
 	}
+	alert := service.Input()
+
 	events = append(events, newEvent)
 
 	jsonData, err := json.MarshalIndent(events, "", "\t")
@@ -108,8 +108,12 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	data := Data{Events: events}
-	fmt.Println(data)
+	data := Data{
+		Events: events,
+		Alert: alert,
+	}
+
+	// fmt.Println(data)
 	err = t.Execute(w, data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -124,7 +128,7 @@ func DeleteEventHandler(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
-	var events []Event
+	var events []structs.Event
 
 	file, err := os.ReadFile("./database/events.json")
 	if err != nil {
@@ -167,7 +171,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var user []Users
 
-	file, err := os.ReadFile(users)
+	file, err := os.ReadFile(UserEvents)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -180,7 +184,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		r.FormValue("email"),
 		r.FormValue("password"),
 	}
-	json.Unmarshal([]byte(users), &user)
+	json.Unmarshal([]byte(structs.UserData), &user)
 
 	user = append(user, newUsers)
 
@@ -188,7 +192,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	os.WriteFile(users, JsonUser, 0o777)
+	os.WriteFile(structs.UserData, JsonUser, 0o777)
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
@@ -220,7 +224,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		// Email:    r.FormValue("email"),
 		Password: r.FormValue("password"),
 	}
-	ExistingUsers, err := os.ReadFile(users)
+	ExistingUsers, err := os.ReadFile(structs.UserData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

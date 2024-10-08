@@ -92,6 +92,9 @@
 </style>
 </head>
 <body>
+    {{if ne .Alert ""}}
+        <div class="alert">{{.Alert}}</div>
+    {{end}}
     <header class="glassmorphism">
         <a href="/" class="logo">FOCUSFLOW</a>
         <nav>

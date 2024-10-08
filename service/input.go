@@ -1,43 +1,46 @@
 package service
 
 import (
+	"Focus/structs"
+	"encoding/json"
 	"fmt"
-	"strconv"
+	"os"
 	"sync"
 	"time"
 )
 
-var Words struct {
-	name  string
-	task  string
-	time  time.Time
-	alarm time.Timer
-}
-
-func Input(str []string) {
+func Input() string {
 	var wg sync.WaitGroup
-	for i := range str {
-		switch i {
-		case 0:
-			Words.name = str[i]
-		case 1:
-			Words.task = str[i]
-		case 2:
-			timed, _ := strconv.Atoi(str[i])
-			Words.time = time.Now().Add(time.Duration(timed) * time.Second)
-			Words.alarm = *time.NewTimer(time.Until(Words.time))
-		}
-
-		if i == 2{
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				<-Words.alarm.C
-				fmt.Printf("%s time\n",Words.task)
-			}()
-
-			fmt.Printf("Hi %s,your task \"%s\" is at %s\n", Words.name, Words.task, Words.time.Format("2006-01 15:04:05"))
-		}
+	var existingData []structs.Event
+	file, err := os.ReadFile(structs.UserData)
+	if err != nil {
+		return ""
 	}
+	json.Unmarshal(file, &existingData)
+	var inputDate string
+	var inputTime string
+	var inputDateTime string
+	for _, v := range existingData {
+		inputDate = v.Date
+		inputTime = v.Time
+	}
+	inputDateTime=inputDate+inputTime
+	//Parse date
+	targetTime, _ := time.Parse("2006-01-02", inputDateTime)
+	//calculate duration until target time
+	durationUntilTarget := targetTime.Sub(time.Now())
+
+	//Create timer
+	timer := time.NewTimer(durationUntilTarget)
+	// Event.time = time.Now().Add(time.Duration(timed) * time.Second)
+	// Words.alarm = *time.NewTimer(time.Until(Words.time))
+
+	go func() {
+		defer wg.Done()
+		<-timer.C
+		fmt.Print(" time\n")
+	}()
+	wg.Add(1)
 	wg.Wait()
+	return "alert"
 }
