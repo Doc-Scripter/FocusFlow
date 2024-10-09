@@ -1,13 +1,14 @@
 package handler
 
 import (
-	"Focus/service"
-	"Focus/structs"
 	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
 	"os"
+
+	"Focus/service"
+	"Focus/structs"
 )
 
 type Data struct {
@@ -110,7 +111,7 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	data := Data{
 		Events: events,
-		Alert: alert,
+		Alert:  alert,
 	}
 
 	// fmt.Println(data)
@@ -211,6 +212,12 @@ func LoginPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.ServeFile(w, r, "./web/templates/login.html")
+	// temp, err := template.ParseFiles("./web/templates/login.html")
+	// if err != nil {
+	// 	http.Error(w, err.Error(), 404)
+	// 	return
+	// }
+	// temp.Execute(w, nil)
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -236,11 +243,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			isOnline[v.Username] = true
 			authenticated = true
 		}
-
 	}
 	if !authenticated {
 		// http.Error(w, "Invalid Credentials", http.StatusUnauthorized)
-		http.Redirect(w, r, "./web/templates/login.html", http.StatusSeeOther)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 	tmpl, err := template.ParseFiles("./web/templates/index2.html")
@@ -251,7 +257,21 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
+}
 
+func LogoutHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	user := Users{
+		Username: r.FormValue("username"),
+	}
+
+	isOnline[user.Username] = false
+
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func ContactPageHandler(w http.ResponseWriter, r *http.Request) {
