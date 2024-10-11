@@ -1,9 +1,11 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"Focus/handler"
+	"Focus/service"
 )
 
 func main() {
@@ -11,8 +13,7 @@ func main() {
 		switch r.URL.Path {
 		case "/":
 			handler.RegisterPageHandler(w, r)
-		case "/NewEvent":
-			handler.NewEventhandler(w, r)
+		
 		case "/register":
 			handler.RegisterHandler(w, r)
 		case "/AddEvent":
@@ -25,10 +26,15 @@ func main() {
 			handler.LoginHandler(w, r)
 		case "/contact":
 			handler.ContactPageHandler(w, r)
+		case "/logout":
+			handler.LogoutHandler(w,r)
 		default:
 			http.Error(w, "404 Not Found", http.StatusNotFound)
 		}
 	})
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./web/static/"))))
-	http.ListenAndServe(":8080", nil)
+
+	go service.Input()
+	log.Println("Server started at :5050")
+	http.ListenAndServe(":5050", nil)
 }

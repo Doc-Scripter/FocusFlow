@@ -92,16 +92,15 @@
 </style>
 </head>
 <body>
-    {{if ne .Alert ""}}
-        <div class="alert">{{.Alert}}</div>
-    {{end}}
+    
     <header class="glassmorphism">
         <a href="/" class="logo">FOCUSFLOW</a>
         <nav>
             <a href="/home">Home</a>
             <a href="/about">About</a>
-            <form method="Get" action="/contact"><button type="submit">Contact</a>
+            <form method="Get" action="/contact"><button type="submit">Contact
             </form>
+            
         </nav>
         <div style="display: flex; align-items: center; gap: 1rem;">
             <a href="/appointments" class="notification-icon" title="Notifications">📱</a>
@@ -146,15 +145,7 @@
                 </tbody>
             </table>
         </div>
-        <!-- <script>
-            document.getElementById('submitButton').addEventListener('click', function(e) {
-                const popup = document.getElementById('successPopup');
-                popup.style.display = 'block';
-                setTimeout(function() {
-                    popup.style.display = 'none';
-                }, 3000);
-            });
-        </script> -->
+       
     </main>
 
     <footer style="background-color: transparent;">

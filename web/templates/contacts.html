@@ -91,6 +91,12 @@
     <a href="/" class="logo">FOCUSFLOW</a>
     <nav>
         <a href="javascript:history.back()" style="color: #6EC207; text-decoration: none;">Back</a>
+        <form method="post" action="/logout">
+
+            <input type="hidden" name="username" value="{{.OnlineUser}}">
+            
+            <button type="submit">logout</button>
+        </form>
     </nav>
 </header>
 

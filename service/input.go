@@ -3,14 +3,13 @@ package service
 import (
 	"Focus/structs"
 	"encoding/json"
-	"fmt"
+	"log"
 	"os"
-	"sync"
 	"time"
 )
 
 func Input() string {
-	var wg sync.WaitGroup
+	// var wg sync.WaitGroup
 	var existingData []structs.Event
 	file, err := os.ReadFile(structs.UserData)
 	if err != nil {
@@ -24,23 +23,25 @@ func Input() string {
 		inputDate = v.Date
 		inputTime = v.Time
 	}
-	inputDateTime=inputDate+inputTime
+	inputDateTime = inputDate + inputTime
+	log.Println(inputDateTime)
 	//Parse date
 	targetTime, _ := time.Parse("2006-01-02", inputDateTime)
 	//calculate duration until target time
-	durationUntilTarget := targetTime.Sub(time.Now())
+	// durationUntilTarget := targetTime.Sub(time.Now())
+	durationUntilTarget := time.Until(targetTime)
 
 	//Create timer
 	timer := time.NewTimer(durationUntilTarget)
 	// Event.time = time.Now().Add(time.Duration(timed) * time.Second)
 	// Words.alarm = *time.NewTimer(time.Until(Words.time))
 
-	go func() {
-		defer wg.Done()
-		<-timer.C
-		fmt.Print(" time\n")
-	}()
-	wg.Add(1)
-	wg.Wait()
+	// go func() {
+	// 	defer wg.Done()
+	// 	// fmt.Print(" time\n")
+	// 	}()
+	<-timer.C
+	playSound()
+	log.Println("Alert triggered")
 	return "alert"
 }
