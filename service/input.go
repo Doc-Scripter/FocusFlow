@@ -29,7 +29,7 @@ func StartAlarmLoop() {
 
 		now := time.Now()
 		var soonestAlarm *handler.Period
-		var timeBefore time.Time
+		// var timeBefore time.Time
 		for i := range events {
 			eventTime, err := time.Parse("2006-01-02 15:04", events[i].Date+" "+events[i].Time)
 			if err != nil {
