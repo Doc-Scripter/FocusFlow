@@ -1,22 +1,21 @@
 package service
 
 import (
-	"Focus/structs"
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"time"
+
+	"Focus/handler"
 )
 
-func GetEvents() ([]structs.Event, error) {
-	var existingData []structs.Event
-	file, err := os.ReadFile(structs.UserData) // Adjust the path as necessary
+func GetEvents() ([]handler.Period, error) {
+	var existingData []handler.Period
+	file, err := os.ReadFile(handler.UserSchedule) // Adjust the path as necessary
 	if err != nil {
 		return nil, err
 	}
 	json.Unmarshal(file, &existingData)
-	fmt.Println(existingData)
 	return existingData, nil
 }
 
@@ -29,51 +28,62 @@ func StartAlarmLoop() {
 		}
 
 		now := time.Now()
-		var soonestAlarm *structs.Event
+		var soonestAlarm *handler.Period
+		var timeBefore time.Time
 		for i := range events {
 			eventTime, err := time.Parse("2006-01-02 15:04", events[i].Date+" "+events[i].Time)
 			if err != nil {
 				log.Println("Error parsing event time:", err)
 				continue
 			}
+			// timeBefore=getEventTime(soonestAlarm)
+			
+			if eventTime.After(now) {//&&eventTime.Before(timeBefore)
+				// timeBefore, err := time.Parse("2006-01-02 15:04", soonestAlarm.Date+" "+soonestAlarm.Time)
+				// if err != nil {
+				// 	log.Println("Error parsing event time:", err)
+				// 	continue
+				// }
 
-			if eventTime.After(now) {
-				timeBefore, err := time.Parse("2006-01-02 15:04", soonestAlarm.Date+" "+soonestAlarm.Time)
-
-				if err != nil {
-					log.Println("Error parsing event time:", err)
-					continue
-				}
-
-				if soonestAlarm == nil || eventTime.Before(timeBefore) {
-					soonestAlarm = &events[i]
-
-				}
+				if soonestAlarm == nil || eventTime.Before(getEventTime(soonestAlarm)) {
+				soonestAlarm = &events[i]
+					}
 			}
 		}
 
 		if soonestAlarm != nil {
 			timeBefore, err := time.Parse("2006-01-02 15:04", soonestAlarm.Date+" "+soonestAlarm.Time)
+			
+			timeBefore= timeBefore.Add(-3 * time.Hour)
+			log.Println(timeBefore)
 			if err != nil {
 				log.Println("Error parsing event time:", err)
 				continue
 			}
 			sleepDuration := time.Until(timeBefore)
+			log.Println(sleepDuration)
 			time.Sleep(sleepDuration)
 
 			// Trigger the alarm
 			playSound()
-			log.Println("Alert triggered for:", soonestAlarm.AddEvent)
+			log.Println("Alert triggered for:", soonestAlarm.Date)
 
 			// Optionally, remove the event after triggering
 			// RemoveEvent(soonestAlarm)
 		} else {
 			// If there are no upcoming alarms, check every minute
-			time.Sleep(3 * time.Second)
+			time.Sleep(1 * time.Second)
 		}
 	}
 }
-
+func getEventTime(event *handler.Period) time.Time {
+	eventTime, err := time.Parse("2006-01-02 15:04", event.Date+" "+event.Time)
+	if err != nil {
+		log.Println("Error parsing event time:", err)
+		return time.Time{} // Return zero Time if there's an error
+	}
+	return eventTime // Adjust for time zone if needed
+}
 // func Input() string {
 // 	// var wg sync.WaitGroup
 // 	var existingData []structs.Event

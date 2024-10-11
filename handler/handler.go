@@ -27,10 +27,17 @@ type TotalUsers struct {
 
 const UserEvents = "./database/events.json"
 
+const UserSchedule ="./database/time.json"
+
 var isOnline = make(map[string]bool)
 
 type OnlineUsers struct {
 	OnlineUser []string
+}
+
+type Period struct{
+	Date string`json:"date"`
+	Time string `json:"time"`
 }
 
 // LassoStatus
@@ -81,21 +88,45 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	// fmt.Println("hi")
 	var events []structs.Event
+	var schedule []Period
+
 	file, err := os.ReadFile(UserEvents)
 	if err != nil {
 		http.Error(w, "hello", http.StatusInternalServerError)
 		return
 	}
 	json.Unmarshal(file, &events)
-
+	timeFile, err := os.ReadFile("./database/time.json")
+	if err != nil {
+		http.Error(w, "hello", http.StatusInternalServerError)
+		return
+	}
+	
 	newEvent := structs.Event{
 		AddEvent: r.FormValue("AddEvent"),
 		Date:     r.FormValue("Date"),
 		Time:     r.FormValue("Time"),
 	}
+	newSchedule:=Period{
+		Date:     r.FormValue("Date"),
+		Time:     r.FormValue("Time"),
+	}
+	json.Unmarshal(timeFile, &schedule)
+	
 	// alert := service.Input()
-
+	schedule=append(schedule, newSchedule)
 	events = append(events, newEvent)
+
+	jsonTime, err := json.MarshalIndent(schedule, "", "\t")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = os.WriteFile(UserSchedule, jsonTime, 0o666)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	jsonData, err := json.MarshalIndent(events, "", "\t")
 	if err != nil {
@@ -237,6 +268,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		// Email:    r.FormValue("email"),
 		Password: r.FormValue("password"),
 	}
+	
 	ExistingUsers, err := os.ReadFile(structs.UserData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

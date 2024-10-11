@@ -1,11 +1,9 @@
 [
 	{
-		"addEvent": "lunch",
 		"date": "2024-10-11",
 		"time": "18:36"
 	},
 	{
-		"addEvent": "newv event",
 		"date": "2024-10-11",
 		"time": "18:32"
 	}

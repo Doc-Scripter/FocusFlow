@@ -35,7 +35,7 @@ func playSound() {
 	speaker.Play(streamer)
 
 	// Play sound for 5 seconds
-	time.Sleep(4 * time.Second)
+	time.Sleep(6 * time.Second)
 
 	// Stop the sound
 	speaker.Close()
