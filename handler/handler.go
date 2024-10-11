@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 
-	"Focus/service"
 	"Focus/structs"
 )
 
@@ -250,7 +249,6 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		if v.Username == user.Username || v.Password == user.Password {
 			isOnline[v.Username] = true
 			authenticated = true
-			service.Input()
 		}
 	}
 	if !authenticated {
