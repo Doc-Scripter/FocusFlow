@@ -10,12 +10,6 @@ import (
 
 	"Focus/structs"
 )
-
-type Data struct {
-	Events []structs.Event
-	Alert  string
-}
-
 type Users struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
@@ -24,73 +18,15 @@ type Users struct {
 type TotalUsers struct {
 	Total []Users
 }
-
-const UserEvents = "./database/events.json"
-
-const UserSchedule ="./database/time.json"
-
-var isOnline = make(map[string]bool)
-
-type OnlineUsers struct {
-	OnlineUser []string
-}
-
-type Period struct{
-	Date string`json:"date"`
-	Time string `json:"time"`
-}
-
-// LassoStatus
-
-// func Homehandler(w http.ResponseWriter, r *http.Request) {
-// 	if r.Method != "GET" {
-// 		http.Error(w, "Method not Allowed", http.StatusMethodNotAllowed)
-// 		return
-// 	}
-// 	tmpl, err := template.ParseFiles("./web/templates/index2.html")
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusBadRequest)
-// 		return
-// 	}
-// 	var existingData []structs.Event
-// 	file, err := os.ReadFile("./database/events.json")
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-// 	json.Unmarshal(file, &existingData)
-// 	data := Data{Events: existingData}
-// 	tmpl.Execute(w, data)
-// }
-
-// func NewEventhandler(w http.ResponseWriter, r *http.Request) {
-// 	if r.Method != "GET" {
-// 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-// 	}
-// 	tmpl, err := template.ParseFiles("./web/templates/NewEvent.html")
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 	}
-// 	var existingData []structs.Event
-// 	file, err := os.ReadFile(UserEvents)
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-// 	json.Unmarshal(file, &existingData)
-// 	data := Data{Events: existingData}
-// 	tmpl.Execute(w, data)
-// }
-
 func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 	}
 	// fmt.Println("hi")
 	var events []structs.Event
-	var schedule []Period
+	var schedule []structs.Period
 
-	file, err := os.ReadFile(UserEvents)
+	file, err := os.ReadFile(structs.UserEvents)
 	if err != nil {
 		http.Error(w, "hello", http.StatusInternalServerError)
 		return
@@ -101,20 +37,20 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "hello", http.StatusInternalServerError)
 		return
 	}
-	
+
 	newEvent := structs.Event{
 		AddEvent: r.FormValue("AddEvent"),
 		Date:     r.FormValue("Date"),
 		Time:     r.FormValue("Time"),
 	}
-	newSchedule:=Period{
-		Date:     r.FormValue("Date"),
-		Time:     r.FormValue("Time"),
+	newSchedule :=structs.Period{
+		Date: r.FormValue("Date"),
+		Time: r.FormValue("Time"),
 	}
 	json.Unmarshal(timeFile, &schedule)
-	
+
 	// alert := service.Input()
-	schedule=append(schedule, newSchedule)
+	schedule = append(schedule, newSchedule)
 	events = append(events, newEvent)
 
 	jsonTime, err := json.MarshalIndent(schedule, "", "\t")
@@ -122,7 +58,7 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	err = os.WriteFile(UserSchedule, jsonTime, 0o666)
+	err = os.WriteFile(structs.UserSchedule, jsonTime, 0o666)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -144,7 +80,7 @@ func AddEventHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	data := Data{
+	data := structs.Data{
 		Events: events,
 		// Alert: alert,
 	}
@@ -174,7 +110,6 @@ func DeleteEventHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	json.Unmarshal(file, &events)
 	for k, v := range events {
-		// fmt.Println(r.FormValue("DeleteEvent"))
 		if v.AddEvent == r.FormValue("DeleteEvent") {
 			events = append(events[:k], events[k+1:]...)
 		}
@@ -196,7 +131,7 @@ func DeleteEventHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	data := Data{Events: events}
+	data := structs.Data{Events: events}
 	tmpl.Execute(w, data)
 }
 
@@ -208,7 +143,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var user []Users
 
-	file, err := os.ReadFile(UserEvents)
+	file, err := os.ReadFile(structs.UserEvents)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -248,7 +183,6 @@ func LoginPageHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	// http.ServeFile(w, r, "./web/templates/login.html")
 	temp, err := template.ParseFiles("./web/templates/login.html")
 	if err != nil {
 		http.Error(w, err.Error(), 404)
@@ -268,7 +202,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		// Email:    r.FormValue("email"),
 		Password: r.FormValue("password"),
 	}
-	
+
 	ExistingUsers, err := os.ReadFile(structs.UserData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -276,15 +210,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	var authenticated bool
 	json.Unmarshal(ExistingUsers, &AllUsers.Total)
-	// fmt.Println(AllUsers.Total)
+	
 	for _, v := range AllUsers.Total {
 		if v.Username == user.Username || v.Password == user.Password {
-			isOnline[v.Username] = true
+			structs.IsOnline[v.Username] = true
 			authenticated = true
 		}
 	}
 	if !authenticated {
-		// http.Error(w, "Invalid Credentials", http.StatusUnauthorized)
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
@@ -301,7 +234,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	json.Unmarshal(file, &existingData)
 	log.Println(existingData)
-	data := Data{Events: existingData}
+	data := structs.Data{Events: existingData}
 	tmpl.Execute(w, data)
 }
 
@@ -315,7 +248,7 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 		Username: r.FormValue("username"),
 	}
 
-	isOnline[user.Username] = false
+	structs.IsOnline[user.Username] = false
 
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
@@ -325,13 +258,11 @@ func ContactPageHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	fmt.Println(isOnline)
-	var displayOnline OnlineUsers
-	for k := range isOnline {
+	
+	var displayOnline structs.OnlineUsers
+	for k := range structs.IsOnline {
 		displayOnline.OnlineUser = append(displayOnline.OnlineUser, k)
-		// displayOnline.Username = k
 	}
-	// fmt.Println(displayOnline)
 	tmpl, err := template.ParseFiles("./web/templates/contacts.html")
 	if err != nil {
 		http.Error(w, err.Error(), 404)

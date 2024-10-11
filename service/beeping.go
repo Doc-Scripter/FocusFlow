@@ -7,7 +7,6 @@ import (
 
 	"github.com/faiface/beep/speaker"
 	"github.com/faiface/beep/wav"
-	// "github.com/gen2brain/beeep"
 )
 
 func playSound() {
