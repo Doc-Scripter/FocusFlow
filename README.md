@@ -1,6 +1,10 @@
 - [FocusFlow](#focusflow)
 - [Introduction](#introduction)
+    - [Lasso Feature](#lasso-feature)
 - [Layout](#layout)
+- [Core -Logic](#core--logic)
+  - [Lasso Feature](#lasso-feature-1)
+- [Contribution](#contribution)
 
 
 # FocusFlow
