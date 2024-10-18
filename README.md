@@ -9,6 +9,7 @@
  # Introduction
   This is an innovative productivity tool designed to help users manage their tasks and optimize their time efficiently. By integrating intelligent reminders with a unique feedback system, FocusFlow allows users to create, prioritize, and track their tasks seamlessly. It promotes accountability and personal growth by providing insights into user performance and suggesting routine optimizations. FocusFlow can be implemented as a Discord bot or Telegram bot, sending real-time notifications and reminders directly to users in a familiar environment, making it easier than ever to stay organized and focused on achieving goals
 
+
   # Layout
   The layout of FocusFlow is designed to be user-friendly and intuitive, with the following features:
 ```
@@ -49,6 +50,12 @@
     ├── User Productivity Insights
     └── Routine Optimization Suggestions
 ```
+# Core -Logic
+  Productivity tool designed to help users manage their tasks and optimize their time efficiently
+
+ ## Lasso Feature
+  The Lasso feature in FocusFlow revolutionizes the way users schedule and collaborate with others. Instead of booking appointments, users can now "lasso" individuals for networking, meetings, or events. When a lasso request is sent and accepted by both the sender and receiver, a combined notification is triggered to all parties involved whether through an alarm,email,discord and/telegram. This streamlined approach makes it easier to coordinate schedules and collaborate effectively.
+
 
 # Contribution
 
@@ -74,6 +81,6 @@ Get Started:
 
 🌟 Make an Impact: Your contributions will not only shape the future of FocusFlow but also empower users to boost their productivity and achieve their goals efficiently.
 
-📌 Project Repository: [text](https://github.com/Doc-Scripter/FocusFlow.git)
+📌 Project Repository: [FocusFlow](https://github.com/Doc-Scripter/FocusFlow.git)
 
 Let's work together to create a seamless productivity experience for users worldwide. Your expertise and creativity can make a significant difference!
