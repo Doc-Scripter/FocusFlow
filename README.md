@@ -9,6 +9,10 @@
  # Introduction
   This is an innovative productivity tool designed to help users manage their tasks and optimize their time efficiently. By integrating intelligent reminders with a unique feedback system, FocusFlow allows users to create, prioritize, and track their tasks seamlessly. It promotes accountability and personal growth by providing insights into user performance and suggesting routine optimizations. FocusFlow can be implemented as a Discord bot or Telegram bot, sending real-time notifications and reminders directly to users in a familiar environment, making it easier than ever to stay organized and focused on achieving goals
 
+### Lasso Feature
+In addition to traditional task management, FocusFlow introduces the revolutionary "Lasso" feature. This feature transforms the way users schedule and collaborate by allowing them to "lasso" individuals for networking, meetings, or events. Instead of booking appointments, users can send lasso requests, and when accepted by both the sender and receiver, a combined notification is triggered for all parties involved. This streamlined approach simplifies coordination and enhances collaboration, making it easier than ever to connect with others for various purposes.
+
+FocusFlow promotes accountability and personal growth by providing insights into user performance and suggesting routine optimizations. It can be implemented as a Discord bot or Telegram bot, sending real-time notifications and reminders directly to users in a familiar environment, ensuring they stay organized and focused on achieving their goals.
 
   # Layout
   The layout of FocusFlow is designed to be user-friendly and intuitive, with the following features:
