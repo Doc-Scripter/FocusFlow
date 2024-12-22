@@ -21,7 +21,7 @@ func GetEvents() ([]structs.Period, error) {
 	return existingData, nil
 }
 
-func StartAlarmLoop() {
+func StartAlarm() {
 	for {
 		events, err := GetEvents()
 		if err != nil {
