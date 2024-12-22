@@ -34,7 +34,7 @@ func main() {
 	})
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./web/static/"))))
 
-	go service.StartAlarmLoop()
+	go service.StartAlarm()
 	fmt.Println("Server started at :5050")
 	http.ListenAndServe(":5050", nil)
 }
