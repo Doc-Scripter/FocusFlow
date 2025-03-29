@@ -4,6 +4,8 @@
 - [Layout](#layout)
 - [Core -Logic](#core--logic)
   - [Lasso Feature](#lasso-feature-1)
+- [System Requirements and Troubleshooting](#system-requirements-and-troubleshooting)
+  - [Audio Setup for WSL Users](#audio-setup-for-wsl-users)
 - [Contribution](#contribution)
 
 
@@ -64,6 +66,54 @@ FocusFlow promotes accountability and personal growth by providing insights into
  ## Lasso Feature
   The Lasso feature in FocusFlow revolutionizes the way users schedule and collaborate with others. Instead of booking appointments, users can now "lasso" individuals for networking, meetings, or events. When a lasso request is sent and accepted by both the sender and receiver, a combined notification is triggered to all parties involved whether through an alarm,email,discord and/telegram. This streamlined approach makes it easier to coordinate schedules and collaborate effectively.
 
+# System Requirements and Troubleshooting
+
+## Audio Setup for WSL Users
+If you're running FocusFlow on Ubuntu in Windows Subsystem for Linux (WSL), you might encounter the following error:
+
+```
+Error initializing speaker: failed to initialize speaker: oto: ALSA error: No such file or directory
+```
+
+This occurs because WSL doesn't have native ALSA support by default. To fix this issue, run the following commands in your WSL Ubuntu terminal:
+
+```bash
+# Update package list
+sudo apt update
+
+# Install ALSA utilities and libraries
+sudo apt install -y alsa-utils libasound2 libasound2-plugins
+
+# Install PulseAudio and its ALSA plugin
+sudo apt install -y pulseaudio pulseaudio-utils
+```
+
+You may also need to create or update the ALSA configuration file:
+
+```bash
+echo 'pcm.!default {
+    type pulse
+    fallback "sysdefault"
+    hint {
+        show on
+        description "Default ALSA Output (PulseAudio)"
+    }
+}
+
+ctl.!default {
+    type pulse
+    fallback "sysdefault"
+}' | sudo tee /etc/asound.conf
+```
+
+For Windows 11 users with WSL2, you can also try updating WSL:
+
+```bash
+wsl --update
+wsl --shutdown
+```
+
+These steps should resolve the audio issues and allow FocusFlow's reminder system to function properly with audio notifications.
 
 # Contribution
 

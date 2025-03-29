@@ -1,7 +1,0 @@
-{
-    "version": 2,
-    "routes": [
-      { "src": "/static/(.*)", "dest": "api.go", "methods": ["GET"] },
-      { "src": "/(.*)", "dest": "api.go" }
-    ]
-  }
